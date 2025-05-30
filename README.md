@@ -3,4 +3,4 @@
 
 
 # Szimulátorként működik 
- Nem kezel 3d modell fájlokat, és nem használ slicing programot
+ Nem kezel 3d modell fájlokat, és nem használ slicing programot és nem csatlakozik nyomtatóhoz
