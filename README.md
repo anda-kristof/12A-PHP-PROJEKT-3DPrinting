@@ -2,5 +2,5 @@
 3D printing platform
 
 
-# Nem kezel 3d modell fájlokat, és nem használ slicing programot
-## Szimulátorként működik 
+# Szimulátorként működik 
+ Nem kezel 3d modell fájlokat, és nem használ slicing programot
