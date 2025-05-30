@@ -99,3 +99,42 @@ ALTER TABLE `jobs`
   ADD CONSTRAINT `jobs_ibfk_3` FOREIGN KEY (`filament_id`) REFERENCES `filaments` (`filament_id`),
   ADD CONSTRAINT `jobs_ibfk_4` FOREIGN KEY (`model_id`) REFERENCES `models` (`model_id`);
 
+
+INSERT INTO users (username, password, email) VALUES
+  ('alice', 'hashpass1', 'alice@example.com'),
+  ('bob', 'hashpass2', 'bob@example.com'),
+  ('carol', 'hashpass3', 'carol@example.com');
+
+
+INSERT INTO materials (name, color, density, img) VALUES
+  ('PLA', 'white', 1.24, 'pla_white.png'),
+  ('ABS', 'black', 1.04, 'abs_black.png'),
+  ('PETG', 'blue', 1.27, 'petg_blue.png');
+
+
+INSERT INTO models (user_id, name, volume_mm, max_size_mm, description, img, recommended_material) VALUES
+  (1, 'Chess Pawn', 1200, 45, 'A simple chess pawn.', 'pawn.png', 'PLA'),
+  (2, 'Phone Stand', 3000, 100, 'Desk phone stand.', 'stand.png', 'PETG'),
+  (1, 'Keychain', 350, 30, 'Small keychain with logo.', 'keychain.png', 'ABS');
+
+
+INSERT INTO printer_types (printer_type_name, printing_speed, plate_length, plate_height, plate_width, compatible_materials, img) VALUES
+  ('Prusa i3', 15.0, 250, 210, 210, 'PLA,ABS,PETG', 'prusa.png'),
+  ('Ender 3', 10.0, 220, 250, 220, 'PLA,ABS', 'ender3.png');
+
+
+INSERT INTO printers (printer_type_id, printer_name, status, job_id) VALUES
+  (1, 'Prusa #1', 'idle', 0),
+  (2, 'Ender #1', 'printing', 0);
+
+
+INSERT INTO filaments (material_id, filament_grams) VALUES
+  (1, 500),
+  (2, 250),
+  (3, 1000);
+
+
+INSERT INTO jobs (user_id, printer_id, filament_id, starts_time, print_time, status, grams, model_id) VALUES
+  (1, 1, 1, '2025-05-30 10:00:00', '01:30:00', 'finished', 25, 1),
+  (2, 2, 3, '2025-05-29 15:00:00', '02:00:00', 'printing', 50, 2),
+  (1, 1, 2, '2025-05-28 12:00:00', '00:45:00', 'queued', 10, 3);
