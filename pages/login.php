@@ -5,7 +5,17 @@ include_once("Connection.php");
 $conn = new Connection();
 $users = $conn->getUsers();
 
-function validLogin($users, $username, $password){
+function getUserFromLogin($users, $username, $password){
+foreach($users as $u){
+        if($u->username == $username){
+            if($u->password == $password){
+                return $u;
+            }
+        } 
+    }
+    return false;
+}
+function validLoginText($users, $username, $password){
     foreach($users as $u){
         if($u->username == $username){
             if($u->password == $password){
@@ -16,14 +26,19 @@ function validLogin($users, $username, $password){
     return "You are an idiot, cant even remember your fucking password!!!";
 }
 
-if($_SERVER["REQUEST_METHOD"] === "POST"){
-    $username = trim($_POST["username"] ?? '');
-    $password = $_POST["password"] ?? "";
+function validLogin($users, $username, $password){
+    foreach($users as $u){
+        if($u->username == $username){
+            if($u->password == $password){
+                return true;
+            }
+        } 
+    }
+    return false;
+}
+
     
 
-echo validLogin($users, $username, $password);
-    
-}
 
 
 

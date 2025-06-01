@@ -1,4 +1,5 @@
 <?php 
+session_start();
 
 
 
@@ -15,10 +16,51 @@
 </head>
 <body>
 <div class="container">
+    <?php
+    $todo = $_GET["todo"] ?? "access";
+switch($todo){
+    case "login":
+        include_once("pages/login.php");
+        if($_SERVER["REQUEST_METHOD"] === "POST"){
+    $username = trim($_POST["username"] ?? '');
+    $password = $_POST["password"] ?? "";
+
+    if(validLogin($users, $username, $password)){
+        include_once("pages/dashboard.php");
+        $_SESSION['user'] = getUserFromLogin($users, $username, $password);
+    }
     
-    <?php include_once("access.php"); 
+
+echo "<div class='alert alert-danger'>" . validLoginText($users, $username, $password) . "</div>";}
+        break;
+    case "registration":
+        include_once("pages/registration.php");
+        break;
+    case "access":
+        include_once("pages/access.php");
+        break;
+    case "models":
+        include_once("pages/models.php");
+        break;
+    case "printers":
+        include_once("pages/printers.php");
+        break;
+    case "newprinter":
+        include_once("pages/newPrinter.php");
+        break;
+    case "newmaterial":
+        include_once("pages/newMaterial.php");
+        break;
+    case "printmodel":
+        include_once("pages/printModel.php");
+        break;
+    case "uploadmodel":
+        include_once("pages/uploadModel.php");
+        break;
+    case "dashboard":
+        include_once("pages/dashboard.php");
     
-    
+}
     
     ?>
     

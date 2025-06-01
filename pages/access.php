@@ -1,14 +1,6 @@
 <?php 
 
-$todo = $_GET["todo"] ?? "";
-switch($todo){
-    case "login":
-        include_once("login.php");
-        break;
-    case "registration":
-        include_once("registration.php");
-        break;
-}
+
 
 ?>
 
