@@ -113,9 +113,24 @@ class Connection
         }
         $printers = [];
         while ($row = $result->fetch_object()) {
-            $printers[] = new Printer($row->printer_id, $row->printer_type_id, $row->printer_name, $row->status, $row->job_id);
+            $printers[] = new Printer($row->printer_id, $row->printer_type_id,$row->user_id, $row->printer_name, $row->status, $row->job_id);
         }
         return $printers;
+    }
+
+    function getFreePrinters($user_id) {
+        $printers = $this->getPrinters();
+        $fprinters = [];
+        foreach($printers as $p){
+            if($p->user_id == $user_id){
+
+                if($p->status == "idle"){
+                    $fprinters[] = $p;
+                }
+            }
+        }
+        return $fprinters;
+        
     }
 
 

@@ -23,7 +23,7 @@ class Printer_type{
 }
 
 class Printer{
-    function __construct(public $printer_id, public $printer_type_id, public $printer_name, public $status, public $job_id){
+    function __construct(public $printer_id, public $printer_type_id, public $user_id, public $printer_name, public $status, public $job_id){
 
     }
 }

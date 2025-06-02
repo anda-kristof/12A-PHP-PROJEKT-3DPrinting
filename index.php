@@ -6,6 +6,7 @@ $conn = new Connection();
 $users = $conn->getUsers(); 
 
 
+
 ?>
 
 <!DOCTYPE html>
@@ -160,6 +161,9 @@ $user_id = $_SESSION['user']->user_id;
     case "newprint":
         $modells = $conn->getAllModels();
         $aktuser = $_SESSION['user'];
+        $fprinters = $conn->getFreePrinters($aktuser->user_id);
+        
+        $userfilaments = $conn->getUserFilaments($aktuser->user_id);
         include_once("pages/printModel.php");
         break;
     case "uploadmodel":
