@@ -205,28 +205,13 @@ $user_id = $_SESSION['user']->user_id;
 </div>
 </body>
 <script>
-    setInterval(function() {
-    fetch("checkjobs.php")
-      .then(r => r.json())
-      .then(data => { /* frissítsd a UI-t */ });
-}, 1000);
+//     setInterval(function() {
+//     fetch("checkjobs.php")
+//       .then(r => r.json())
+//       .then(data => { /* frissítsd a UI-t */ });
+// }, 1000);
 
-function refreshDashboardSections() {
-    fetch('dashboard_data.php')
-        .then(res => res.json())
-        .then(data => {
-            document.querySelectorAll('#printers-dashboard-section')[0]
-                .querySelector('#printers-dashboard-row').innerHTML = data.printers;
-            document.querySelectorAll('#printers-dashboard-section')[1]
-                .querySelector('#printers-dashboard-row').innerHTML = data.filaments;
-            document.querySelectorAll('#printers-dashboard-section')[2]
-                .querySelector('#printers-dashboard-row').innerHTML = data.jobs;
-        });
-}
-// Frissítés 5 másodpercenként:
-setInterval(refreshDashboardSections, 5000);
 
-// Az oldal betöltésekor első frissítés:
-refreshDashboardSections();
+
 </script>
 </html>

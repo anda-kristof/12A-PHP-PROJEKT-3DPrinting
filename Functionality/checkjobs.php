@@ -1,8 +1,7 @@
 <?php
 // checkjobs.php
 
-require_once("Connection.php");
-session_start();
+
 
 if(isset($_SESSION['user'])){
     $conn = new Connection(); // vagy ahogy a te projektedben kell
