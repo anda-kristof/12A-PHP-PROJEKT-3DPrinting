@@ -1,6 +1,7 @@
 <?php 
-session_start();
+
 include_once("Functionality/AllCode.php");
+session_start();
 $conn = new Connection();
 $users = $conn->getUsers(); 
 
@@ -96,13 +97,69 @@ switch($todo){
     case "printers":
         include_once("pages/printers.php");
         break;
+    case "deleteprinter":
+        $aktprinterid = $_GET["aktprinterid"];
+        $conn->deletePrinter($aktprinterid);
+        include_once("pages/dashboard.php");
+        break;
     case "newprinter":
+        $printertypes = $conn->getPrinterTypes();
         include_once("pages/newPrinter.php");
         break;
-    case "newmaterial":
+    case "addprinter":
+        
+        if (!isset($_SESSION['user']) || !isset($_SESSION['user']->user_id)) {
+    // Hibakezelés: Nincs bejelentkezett felhasználó!
+    die("Nincs bejelentkezve!");
+}
+
+$user_id = $_SESSION['user']->user_id;
+        $errors = [];
+        $aktuser = $_SESSION['user'];
+        if($_SERVER['REQUEST_METHOD'] === "POST"){
+            $printername = $_POST['printername'] ?? '';
+            $printertype = $_POST['printertype'] ?? '';
+
+            if($printername == ''){
+                $errors['printername'] = "Adj nevet a nyomtatódnak!";
+            }
+            if(empty($errors)){
+                $conn->addPrinter($printertype, $aktuser->user_id, $printername);
+                include_once("pages/dashboard.php");
+            }
+            else{
+                include("pages/newPrinter.php");
+            }
+        }
+        break;
+    case "newfilament":
+        $materials = $conn->getMaterials();
         include_once("pages/newMaterial.php");
         break;
-    case "printmodel":
+    case "addfilament":
+        $aktuser = $_SESSION["user"];
+        $errors = [];
+        if($_SERVER['REQUEST_METHOD'] === "POST"){
+            $matid = (int)($_POST["material_id"] ?? 0);
+            $quantity = (int)($_POST["quantity"] ?? 0);
+            if($matid == 0){
+                $errors["material_id"] = "Jelöljön ki egy anyagot";
+            }
+            if($quantity<1){
+                $errors["quantity"] = "Csak Pozitív mennyiséget vehetsz fel!";
+            }
+            if(empty($errors)){
+                $conn->addFilament($aktuser->user_id, $matid, $quantity);
+                include_once("pages/dashboard.php");
+            }
+            else{
+                include("pages/newMaterial.php");
+            }
+        }
+        break;
+    case "newprint":
+        $modells = $conn->getAllModels();
+        $aktuser = $_SESSION['user'];
         include_once("pages/printModel.php");
         break;
     case "uploadmodel":

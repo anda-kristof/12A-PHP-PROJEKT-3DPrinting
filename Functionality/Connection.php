@@ -89,6 +89,20 @@ class Connection
         return $models;
     }
 
+    function getAllModels()
+    {
+        $sql = "SELECT models.*, users.username FROM models JOIN users ON users.user_id = models.user_id";
+        $result = $this->conn->query($sql);
+        if (!$result) {
+            die("Query error!");
+        }
+        $models = [];
+        while ($row = $result->fetch_object()) {
+            $models[] = $row;
+        }
+        return $models;
+    }
+
 
     function getPrinters()
     {
@@ -226,4 +240,42 @@ while($row = $results->fetch_object()){
 }
 return $userjobs;
     }
+
+function deletePrinter($printer_id){
+    $sql = "DELETE FROM printers WHERE printer_id = $printer_id";
+    $this->conn->query($sql);
+}
+
+function addPrinter($printer_type_id, $user_id, $printer_name ) {
+    $sql = "INSERT INTO printers (printer_type_id, user_id, printer_name, status, job_id) VALUES ('$printer_type_id', '$user_id', '$printer_name', 'idle', '0')";
+    $this->conn->query($sql);
+}
+ function addFilament($user_id, $material_id, $quantity) {
+    // Ellenőrizzük, hogy van-e már ilyen sor ehhez a userhez és anyaghoz
+    $sql = "SELECT filament_id, filament_grams FROM filaments WHERE user_id = ? AND material_id = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("ii", $user_id, $material_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($row = $result->fetch_assoc()) {
+        // Ha van, frissítjük a mennyiséget
+        $newQuantity = $row['filament_grams'] + $quantity;
+        $update_sql = "UPDATE filaments SET filament_grams = ? WHERE filament_id = ?";
+        $update_stmt = $this->conn->prepare($update_sql);
+        $update_stmt->bind_param("ii", $newQuantity, $row['filament_id']);
+        $update_stmt->execute();
+        $update_stmt->close();
+    } else {
+        // Ha nincs ilyen, új rekordot szúrunk be
+        $insert_sql = "INSERT INTO filaments (user_id, material_id, filament_grams) VALUES (?, ?, ?)";
+        $insert_stmt = $this->conn->prepare($insert_sql);
+        $insert_stmt->bind_param("iii", $user_id, $material_id, $quantity);
+        $insert_stmt->execute();
+        $insert_stmt->close();
+    }
+    $stmt->close();
+}
+
+
 }
