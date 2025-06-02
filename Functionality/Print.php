@@ -1,13 +1,5 @@
 <?php
-function PrintValidateBool($plate_length,$plate_height,$plate_width,$filament_grams,$material_name,$material_density,$volume_mm,$recommended_material, $max_size_mm) {
-    $errors = PrintValidate($plate_length,$plate_height,$plate_width,$filament_grams,$material_name,$material_density,$volume_mm,$recommended_material, $max_size_mm);
-    if(empty($errors)){
-        return true;
-    }
-    else{
-        return false;
-    }
-}
+
 function PrintValidate(
 
 

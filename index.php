@@ -159,12 +159,38 @@ $user_id = $_SESSION['user']->user_id;
         }
         break;
     case "newprint":
-        $modells = $conn->getAllModels();
+        $models = $conn->getAllModels();
         $aktuser = $_SESSION['user'];
         $fprinters = $conn->getFreePrinters($aktuser->user_id);
         
         $userfilaments = $conn->getUserFilaments($aktuser->user_id);
         include_once("pages/printModel.php");
+        break;
+    case "print":
+        $aktuser = $_SESSION['user'];
+        if($_SERVER["REQUEST_METHOD"] === "POST"){
+            $printerid = (int)$_POST["printer_id"];
+            $printer = $conn->getPrintersById($printerid);
+            $printer_type = $conn-> getPrinterTypeOfPrinter($printer);
+            $filamentid = (int)$_POST["filament_id"];
+            $filament = $conn->getFilamentById($filamentid);
+            $material = $conn->getMaterialOfFilament($filament);
+            $modelid = (int)$_POST["model_id"];
+            $model = $conn->getModelById($modelid);
+            $grams = ($material->density / 1000) * $model->volume_mm;
+            $floatsecs = ($model->volume_mm/$printer_type->printing_speed);
+            $print_time = (floatSecsToTime($floatsecs));
+
+
+            $errors = PrintValidate($printer_type->plate_length,$printer_type->plate_height, $printer_type->plate_width, $filament->filament_grams, $material->name, $material->density, $model->volume_mm, $model->recommended_material, $model->max_size_mm );
+            if(empty($errors)){
+                $conn->Print($aktuser->user_id, $printerid, $filamentid, $print_time, $modelid, $grams );
+                include_once("pages/dashboard.php");
+            }
+            else{
+                include("pages/printModel.php");
+            }
+        }
         break;
     case "uploadmodel":
         include_once("pages/uploadModel.php");
@@ -178,4 +204,11 @@ $user_id = $_SESSION['user']->user_id;
     
 </div>
 </body>
+<script>
+    setInterval(function() {
+    fetch("checkjobs.php")
+      .then(r => r.json())
+      .then(data => { /* frissítsd a UI-t */ });
+}, 1000);
+</script>
 </html>

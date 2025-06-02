@@ -46,6 +46,42 @@ class Connection
         }
         return $jobs;
     }
+    function Print($user_id, $printer_id, $filament_id,$print_time,  $model_id, $grams) {
+        
+        $starts_time = date('Y-m-d H:i:s');
+        $status = "printing";
+
+        $sql = "INSERT INTO jobs (user_id, printer_id, filament_id, starts_time, print_time, status, grams, model_id) VALUES ('$user_id', '$printer_id', '$filament_id', '$starts_time','$print_time','$status', '$grams', '$model_id'  )";
+        $this->conn->query($sql);
+        $sql = "UPDATE printers SET `status` = '$status' WHERE printer_id = $printer_id";
+        $this->conn->query($sql);
+        $fil = $this->getFilamentById($filament_id);
+        $filaleft = (int)$fil->filament_grams - (int)$grams;
+        if($filaleft <= 0){
+            $sql = "DELETE FROM filaments WHERE filament_id = $filament_id";
+        }else{
+
+            $sql = "UPDATE filaments SET filament_grams = $filaleft WHERE filament_id = $filament_id";
+        }
+    }
+    function setDoneP($printer_id){
+        $sql = "UPDATE printers SET status = 'idle' WHERE printer_id = $printer_id";
+        $this->conn->query($sql);
+        
+    }
+    function setDoneJ($job_id){
+        
+        $sql = "UPDATE jobs SET status = 'finished' WHERE job_id = $job_id";
+        $this->conn->query($sql);
+    }
+    function getPrinterTypeOfPrinter($printer){
+        $sql = "SELECT * FROM printer_types WHERE printer_type_id = $printer->printer_type_id";
+        return $this->conn->query($sql)->fetch_object();
+    }
+     function getMaterialOfFilament($filament){
+        $sql = "SELECT * FROM materials WHERE material_id = $filament->material_id";
+        return $this->conn->query($sql)->fetch_object();
+     }
 
     function getFilaments()
     {
@@ -59,6 +95,15 @@ class Connection
             $filaments[] = new Filament($row->filament_id, $row->material_id, $row->user_id, $row->filament_grams);
         }
         return $filaments;
+    }
+
+    function getFilamentById($filament_id){
+        $filaments = $this->getFilaments();
+        foreach($filaments as $f){
+            if($f->filament_id == $filament_id){
+                return $f;
+            }
+        }
     }
 
     function getMaterials()
@@ -88,6 +133,14 @@ class Connection
         }
         return $models;
     }
+    function getModelById($model_id){
+        $models = $this->getModels();
+        foreach($models as $f){
+            if($f->model_id == $model_id){
+                return $f;
+            }
+        }
+    }
 
     function getAllModels()
     {
@@ -116,6 +169,14 @@ class Connection
             $printers[] = new Printer($row->printer_id, $row->printer_type_id,$row->user_id, $row->printer_name, $row->status, $row->job_id);
         }
         return $printers;
+    }
+    function getPrintersById($printer_id){
+        $printers = $this->getPrinters();
+        foreach($printers as $f){
+            if($f->printer_id == $printer_id){
+                return $f;
+            }
+        }
     }
 
     function getFreePrinters($user_id) {

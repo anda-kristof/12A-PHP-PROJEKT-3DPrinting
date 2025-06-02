@@ -44,10 +44,10 @@
         </div>
         <div class="models-list">
             <?php 
-            foreach($modells as $m){
-                echo '<form class="print-form" method="get" action="?todo=print">
+            foreach($models as $m){
+                echo '<form class="print-form" method="POST" action="?todo=print">
   <input type="hidden" name="todo" value="print">
-  <input type="hidden" name="model_id" value="<?=$m->model_id?>">
+  <input type="hidden" name="model_id" value="'.$m->model_id.'">
   <input type="hidden" name="printer_id" value="">
   <input type="hidden" name="filament_id" value=""><div class="model-card">
                 <img src="../12A-PHP-PROJEKT-3DPrinting/img/models/'.$m->img.'" alt="Model" class="model-img">
@@ -69,6 +69,20 @@
         </div>
     </div>
 </div>
+<script>
+document.querySelectorAll('.print-form').forEach(function(form) {
+  form.addEventListener('submit', function(e) {
+    // Get the sidebar selects
+    const printer = document.getElementById('printer-select');
+    const filament = document.getElementById('filament-select');
+    // Set the hidden inputs
+    form.querySelector('input[name="printer_id"]').value = printer.value;
+    form.querySelector('input[name="filament_id"]').value = filament.value;
+    // Allow form to submit normally (GET)
+    // If you want to use POST, change method and handle accordingly
+  });
+});
+</script>
 
 <style>
     :root {
