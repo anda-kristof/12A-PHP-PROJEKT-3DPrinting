@@ -1,0 +1,172 @@
+/* Printers Dashboard section: Black & Neon Green, scoped! */
+
+#printers-dashboard-section {
+  background: linear-gradient(135deg, #101010 0%, #151d14 100%);
+  padding: 42px 0 20px 0;
+  min-height: 70vh;
+}
+
+#printers-dashboard-section h2 {
+  color: #21e760;
+  text-align: center;
+  margin-bottom: 38px;
+  font-size: 2.3rem;
+  letter-spacing: 2px;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  text-shadow: 0 0 8px #21e76033;
+}
+
+/* Card grid */
+#printers-dashboard-row {
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px 16px;
+}
+
+/* Printer Card */
+.printers-dashboard-card {
+  background: linear-gradient(120deg, #131a12 80%, #182018 100%);
+  border: 2px solid #21e760;
+  border-radius: 16px;
+  box-shadow: 0 4px 30px #21e76018, 0 2px 8px #0008;
+  overflow: hidden;
+  transition: transform 0.21s, box-shadow 0.21s, border-color 0.21s;
+  position: relative;
+  min-width: 250px;
+  max-width: 330px;
+  display: flex;
+  flex-direction: column;
+}
+
+.printers-dashboard-card:hover {
+  transform: translateY(-8px) scale(1.033);
+  box-shadow: 0 12px 48px #21e76033, 0 2px 8px #0008;
+  border-color: #21e760;
+}
+
+/* Card image */
+.printers-dashboard-img {
+  max-height: 230px;
+  min-height: 140px;
+  width: 100%;
+  object-fit: contain;
+  background: #141614;
+  border-bottom: 2px solid #21e760;
+  filter: drop-shadow(0 2px 8px #21e76040);
+  transition: filter 0.2s;
+}
+
+.printers-dashboard-card:hover .printers-dashboard-img {
+  filter: drop-shadow(0 8px 24px #21e760bb);
+}
+
+/* Card body and text */
+.printers-dashboard-body {
+  padding: 20px 15px 18px 15px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.printers-dashboard-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #21e760;
+  margin-bottom: 7px;
+  letter-spacing: 1px;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  text-shadow: 0 0 6px #21e7601a;
+}
+
+.printers-dashboard-type {
+  font-size: 1.08rem;
+  color: #baffd7;
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+
+.printers-dashboard-text {
+  color: #e0e0e0;
+  font-size: 1rem;
+  margin-bottom: 6px;
+  letter-spacing: 0.2px;
+}
+
+.printers-dashboard-btn-row {
+  margin-top: 14px;
+}
+
+.printers-dashboard-card .btn {
+  border-radius: 16px;
+  font-weight: bold;
+  margin: 0 7px 0 0;
+  font-size: 1rem;
+  padding: 7px 18px;
+  border-width: 2px;
+  text-shadow: 0 1px 6px #0009;
+  transition: background 0.17s, color 0.17s, border-color 0.17s;
+}
+
+/* Danger (delete) button */
+.printers-dashboard-card .btn-danger {
+  background: #1c291c;
+  color: #ff3f3f;
+  border-color: #ff3f3f;
+}
+.printers-dashboard-card .btn-danger:hover {
+  background: #ff3f3f;
+  color: #131a12;
+  border-color: #ff3f3f;
+}
+
+/* Success (print) button */
+.printers-dashboard-card .btn-success {
+  background: #21e760;
+  color: #141614;
+  border-color: #21e760;
+}
+.printers-dashboard-card .btn-success:hover {
+  background: #131a12;
+  color: #21e760;
+  border-color: #21e760;
+}
+
+@media (max-width: 992px) {
+  .printers-dashboard-card {
+      min-width: 220px;
+      max-width: 95vw;
+  }
+  #printers-dashboard-section {
+      padding: 18px 0 32px 0;
+  }
+  #printers-dashboard-section h2 {
+      font-size: 2rem;
+  }
+}
+
+.custom-dashboard-btn {
+  background: linear-gradient(90deg, #21e760 0%, #0cb030 100%);
+  color: #101010;
+  border: none;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 1.15rem;
+  padding: 12px 36px;
+  box-shadow: 0 4px 22px #21e76040, 0 1.5px 8px #0008;
+  letter-spacing: 1px;
+  transition: background 0.17s, color 0.17s, box-shadow 0.18s, transform 0.13s;
+  display: inline-block;
+  text-align: center;
+}
+
+.custom-dashboard-btn:hover, .custom-dashboard-btn:focus {
+  background: linear-gradient(90deg, #0cb030 0%, #21e760 100%);
+  color: #fff;
+  box-shadow: 0 8px 32px #21e76080, 0 3px 16px #000b;
+  transform: translateY(-2px) scale(1.04);
+  text-decoration: none;
+  outline: none;
+}

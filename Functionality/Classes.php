@@ -11,7 +11,7 @@ class Material{
     }
 }
 class Filament{
-    function __construct(public $filament_id, public $material_id, public $filament_grams){
+    function __construct(public $filament_id, public $material_id, public $user_id, public $filament_grams){
 
     }
 }

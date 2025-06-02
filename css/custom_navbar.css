@@ -1,0 +1,69 @@
+.custom-navbar {
+  background: #101010 !important;
+  border-bottom: 2px solid #21e760;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  box-shadow: 0 2px 8px rgba(33,231,96,0.07);
+}
+
+.custom-navbar .navbar-brand {
+  color: #21e760 !important;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.custom-navbar .navbar-nav .nav-link {
+  color: #e0e0e0 !important;
+  margin: 0 6px;
+  transition: color 0.2s, background 0.2s;
+  border-radius: 4px;
+  padding: 8px 16px;
+}
+
+.custom-navbar .navbar-nav .nav-link.active,
+.custom-navbar .navbar-nav .nav-link:hover,
+.custom-navbar .navbar-nav .nav-link:focus {
+  color: #101010 !important;
+  background: #21e760 !important;
+}
+
+.custom-navbar .navbar-nav .dropdown-menu.custom-dropdown {
+  background: #181818;
+  border: 1px solid #21e760;
+}
+
+.custom-navbar .navbar-nav .dropdown-menu .dropdown-item {
+  color: #e0e0e0;
+  transition: background 0.18s, color 0.18s;
+}
+.custom-navbar .navbar-nav .dropdown-menu .dropdown-item:hover {
+  background: #21e760;
+  color: #101010;
+}
+
+.custom-navbar .navbar-user h3 {
+  color: #21e760;
+  margin: 0 20px 0 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.btn-logout {
+  background: transparent;
+  border: 2px solid #21e760;
+  color: #21e760;
+  font-weight: 600;
+  transition: all 0.18s;
+  border-radius: 6px;
+  padding: 5px 18px;
+}
+.btn-logout:hover, .btn-logout:focus {
+  background: #21e760;
+  color: #101010;
+  border-color: #21e760;
+  box-shadow: 0 3px 14px rgba(33,231,96,0.12);
+}
+#dashboard-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1020; /* above cards */
+}
