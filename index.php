@@ -112,7 +112,7 @@ switch($todo){
     case "addprinter":
         
         if (!isset($_SESSION['user']) || !isset($_SESSION['user']->user_id)) {
-    // Hibakezelés: Nincs bejelentkezett felhasználó!
+    
     die("Nincs bejelentkezve!");
 }
 
@@ -213,14 +213,14 @@ $user_id = $_SESSION['user']->user_id;
     $user = $_SESSION['user'];
     $errors = [];
     if($_SERVER['REQUEST_METHOD'] === "POST"){
-        // Collect POST values
+        
         $name = trim($_POST['name'] ?? "");
         $volume = isset($_POST['volume_mm']) ? (float)$_POST['volume_mm'] : 0;
         $maxsize = isset($_POST['max_size_mm']) ? (float)$_POST['max_size_mm'] : 0;
         $description = trim($_POST['description'] ?? "");
         $recommended = trim($_POST['recommended_material'] ?? "");
 
-        // Validation
+        
         if ($name === "" || strlen($name) > 100) {
             $errors['name'] = "Adj meg egy nevet, maximum 100 karakter!";
         }
@@ -236,12 +236,12 @@ $user_id = $_SESSION['user']->user_id;
         if (strlen($recommended) > 100) {
             $errors['recommended_material'] = "Az ajánlott anyag maximum 100 karakter lehet!";
         }
-        // If you want to require recommended material, add:
+       
         if ($recommended === "") {
             $errors['recommended_material'] = "Adj meg ajánlott anyagot!";
         }
 
-        // If no errors, save or process the model here!
+        
         if (empty($errors)) {
             $conn->addModel($user->user_id, $name, $volume, $maxsize, $description, $recommended);
             include_once("pages/dashboard.php");

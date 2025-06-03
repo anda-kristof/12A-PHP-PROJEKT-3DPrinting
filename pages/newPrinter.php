@@ -244,6 +244,6 @@ body {
             materials.textContent = 'Kompatibilis anyagok: ' + option.getAttribute('data-materials');
         }
         select.addEventListener('change', updatePreview);
-        updatePreview(); // Set initial preview
+        updatePreview(); 
     });
 </script>

@@ -178,13 +178,13 @@ input.reg-input, input.reg-input:focus, input.reg-input:active {
     text-align: center;
 }
 
-/* Subtle input glow on hover */
+
 .reg-input:hover {
     border-color: #0df2a9cc;
     background: #232b33;
 }
 
-/* Nice fade-in animation */
+
 @keyframes fadeInUp {
     0% {
         opacity: 0;
@@ -196,7 +196,7 @@ input.reg-input, input.reg-input:focus, input.reg-input:active {
     }
 }
 
-/* Responsive */
+
 @media (max-width: 600px) {
     .registration-card {
         padding: 24px 8vw 18px 8vw;

@@ -6,7 +6,7 @@
     $imgWebPath = "img/materials/" . $m->img;
     $imgDiskPath = __DIR__ . "/img/materials/" . $m->img;
 
-    // DIAGNOSZTIKA!
+    
     echo "<!-- imgWebPath: $imgWebPath | imgDiskPath: $imgDiskPath | file_exists: " . (file_exists($imgDiskPath) ? 'igen' : 'nem') . " -->\n";
 ?>
 
@@ -242,7 +242,7 @@
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Radio gomb kiválasztásának vizuális kiemelése
+    
     const cards = document.querySelectorAll('.material-card');
     cards.forEach(card => {
         card.addEventListener('click', function() {
@@ -252,7 +252,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (radio) radio.checked = true;
         });
     });
-    // Ha már volt kiválasztva, akkor meg is jelenítjük
+    
     const checked = document.querySelector('.material-card input[type=radio]:checked');
     if (checked) checked.closest('.material-card').classList.add('selected');
 });

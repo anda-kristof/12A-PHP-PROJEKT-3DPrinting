@@ -162,13 +162,13 @@ body {
     letter-spacing: .2px;
 }
 
-/* Subtle input glow on hover */
+
 .login-input:hover {
     border-color: #0df2a9cc;
     background: #232b33;
 }
 
-/* Nice fade-in animation */
+
 @keyframes fadeInUp {
     0% {
         opacity: 0;
@@ -180,7 +180,7 @@ body {
     }
 }
 
-/* Responsive */
+
 @media (max-width: 600px) {
     .login-card {
         padding: 24px 8vw 18px 8vw;

@@ -5,14 +5,14 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 header('Content-Type: application/json');
-// Mindig a legelső sorban legyen!
+
 header('Content-Type: application/json');
-ini_set('display_errors', 0); // productionban!
+ini_set('display_errors', 0);
 
 session_start();
 require_once("../Functionality/Connection.php");
 
-// Ellenőrizd, hogy a user be van-e jelentkezve!
+
 if (!isset($_SESSION['user'])) {
     echo json_encode([
         'printers' => '<div class="alert alert-danger">Nincs bejelentkezve!</div>',
@@ -25,7 +25,7 @@ if (!isset($_SESSION['user'])) {
 $conn = new Connection();
 $user_id = $_SESSION['user']->user_id;
 
-// ---------- PRINTERS ----------
+
 $userprinters = $conn->getUserPrinters($user_id);
 $printersHtml = "";
 foreach ($userprinters as $p) {
@@ -51,7 +51,6 @@ foreach ($userprinters as $p) {
     ';
 }
 
-// ---------- FILAMENTS ----------
 $userfilaments = $conn->getUserFilaments($user_id);
 $filamentsHtml = "";
 foreach ($userfilaments as $f) {
@@ -71,7 +70,7 @@ foreach ($userfilaments as $f) {
     ';
 }
 
-// ---------- JOBS ----------
+
 $userjobs = $conn->getUserJobs($user_id);
 $jobsHtml = "";
 foreach ($userjobs as $j) {
@@ -116,7 +115,7 @@ foreach ($userjobs as $j) {
     ';
 }
 
-// Válasz JSON
+
 echo json_encode([
     'printers' => $printersHtml,
     'filaments' => $filamentsHtml,

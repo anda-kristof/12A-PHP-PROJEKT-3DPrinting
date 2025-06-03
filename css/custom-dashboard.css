@@ -1,4 +1,4 @@
-/* Printers Dashboard section: Black & Neon Green, scoped! */
+
 
 #printers-dashboard-section {
   background: linear-gradient(135deg, #101010 0%, #151d14 100%);
@@ -16,7 +16,7 @@
   text-shadow: 0 0 8px #21e76033;
 }
 
-/* Card grid */
+
 #printers-dashboard-row {
   margin: 0 auto;
   display: flex;
@@ -25,7 +25,7 @@
   gap: 32px 16px;
 }
 
-/* Printer Card */
+
 .printers-dashboard-card {
   background: linear-gradient(120deg, #131a12 80%, #182018 100%);
   border: 2px solid #21e760;
@@ -46,7 +46,7 @@
   border-color: #21e760;
 }
 
-/* Card image */
+
 .printers-dashboard-img {
   max-height: 230px;
   min-height: 140px;
@@ -62,7 +62,7 @@
   filter: drop-shadow(0 8px 24px #21e760bb);
 }
 
-/* Card body and text */
+
 .printers-dashboard-body {
   padding: 20px 15px 18px 15px;
   flex: 1 1 auto;
@@ -110,7 +110,7 @@
   transition: background 0.17s, color 0.17s, border-color 0.17s;
 }
 
-/* Danger (delete) button */
+
 .printers-dashboard-card .btn-danger {
   background: #1c291c;
   color: #ff3f3f;
@@ -122,7 +122,7 @@
   border-color: #ff3f3f;
 }
 
-/* Success (print) button */
+
 .printers-dashboard-card .btn-success {
   background: #21e760;
   color: #141614;

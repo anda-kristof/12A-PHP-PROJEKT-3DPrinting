@@ -265,7 +265,7 @@ class Connection
 
     function getUserJobs($user_id){
         $sql = "SELECT
-  -- jobs table
+ 
   jobs.job_id            AS jobs_job_id,
   jobs.user_id           AS jobs_user_id,
   jobs.printer_id        AS jobs_printer_id,
@@ -276,7 +276,6 @@ class Connection
   jobs.grams             AS jobs_grams,
   jobs.model_id          AS jobs_model_id,
 
-  -- printers table
   printers.printer_id         AS printers_printer_id,
   printers.printer_type_id    AS printers_printer_type_id,
   printers.user_id            AS printers_user_id,
@@ -284,7 +283,7 @@ class Connection
   printers.status             AS printers_status,
   printers.job_id             AS printers_job_id,
 
-  -- printer_types
+
   printer_types.printer_type_id        AS printer_types_printer_type_id,
   printer_types.printer_type_name      AS printer_types_printer_type_name,
   printer_types.printing_speed         AS printer_types_printing_speed,
@@ -294,20 +293,19 @@ class Connection
   printer_types.compatible_materials   AS printer_types_compatible_materials,
   printer_types.img                    AS printer_types_img,
 
-  -- filaments table
+
   filaments.filament_id        AS filaments_filament_id,
   filaments.material_id        AS filaments_material_id,
   filaments.user_id            AS filaments_user_id,
   filaments.filament_grams     AS filaments_filament_grams,
 
-  -- materials table
+
   materials.material_id        AS materials_material_id,
   materials.name               AS materials_name,
   materials.color              AS materials_color,
   materials.density            AS materials_density,
   materials.img                AS materials_img,
 
-  -- models table
   models.model_id              AS models_model_id,
   models.user_id               AS models_user_id,
   models.name                  AS models_name,
@@ -345,7 +343,7 @@ function addPrinter($printer_type_id, $user_id, $printer_name ) {
     $this->conn->query($sql);
 }
  function addFilament($user_id, $material_id, $quantity) {
-    // Ellenőrizzük, hogy van-e már ilyen sor ehhez a userhez és anyaghoz
+    
     $sql = "SELECT filament_id, filament_grams FROM filaments WHERE user_id = ? AND material_id = ?";
     $stmt = $this->conn->prepare($sql);
     $stmt->bind_param("ii", $user_id, $material_id);
@@ -353,7 +351,7 @@ function addPrinter($printer_type_id, $user_id, $printer_name ) {
     $result = $stmt->get_result();
 
     if ($row = $result->fetch_assoc()) {
-        // Ha van, frissítjük a mennyiséget
+        
         $newQuantity = $row['filament_grams'] + $quantity;
         $update_sql = "UPDATE filaments SET filament_grams = ? WHERE filament_id = ?";
         $update_stmt = $this->conn->prepare($update_sql);
@@ -361,7 +359,7 @@ function addPrinter($printer_type_id, $user_id, $printer_name ) {
         $update_stmt->execute();
         $update_stmt->close();
     } else {
-        // Ha nincs ilyen, új rekordot szúrunk be
+        
         $insert_sql = "INSERT INTO filaments (user_id, material_id, filament_grams) VALUES (?, ?, ?)";
         $insert_stmt = $this->conn->prepare($insert_sql);
         $insert_stmt->bind_param("iii", $user_id, $material_id, $quantity);

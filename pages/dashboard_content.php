@@ -1,10 +1,10 @@
 <?php
 
-require_once(__DIR__ . '/../Functionality/Classes.php'); // 1. osztálydefiníciók
+require_once(__DIR__ . '/../Functionality/Classes.php'); 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
-}                                         // 2. session
-require_once(__DIR__ . '/../Functionality/Connection.php'); // 3. többi include
+}                                       
+require_once(__DIR__ . '/../Functionality/Connection.php'); 
 
 if (!isset($_SESSION['user']) || !is_object($_SESSION['user'])) {
     echo "<div style='color:red'>Nem vagy bejelentkezve!</div>";
@@ -18,7 +18,7 @@ if ($user_id === null) {
 
 $conn = new Connection();
 $user_id = $_SESSION['user']->user_id;
-// require_once(__DIR__ . '/../Functionality/checkjobs.php'); // 3. többi include
+// require_once(__DIR__ . '/../Functionality/checkjobs.php'); 
 
 
 $html = '';
@@ -50,7 +50,7 @@ $html .= '
 </nav>
 ';
 
-// PRINTERS
+
 $html .= '<div id="printers-dashboard-section">
     <h2>Nyomtatóim</h2>
     <div id="printers-dashboard-row">';
@@ -81,7 +81,7 @@ $html .= '</div>
     </div>
 </div>';
 
-// FILAMENTS
+
 $html .= '<div id="printers-dashboard-section">
     <h2 id="filafila">Filamentek</h2>
     <div id="printers-dashboard-row">';
@@ -105,13 +105,13 @@ $html .= '</div>
     </div>
 </div>';
 
-// JOBS
+
 $html .= '<div id="printers-dashboard-section">
     <h2 id="jobss">Nyomtatások</h2>
     <div id="printers-dashboard-row">';
 $userjobs = $conn->getUserJobs($user_id);
 foreach ($userjobs as $j) {
-    // Progress bar számítás
+
     $progress = 0;
     if ($j->jobs_status == "finished") {
         $progress = 100;

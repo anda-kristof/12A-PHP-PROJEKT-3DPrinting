@@ -85,7 +85,7 @@ body {
     z-index: 1;
 }
 
-/* Stand-out effect on hover */
+
 .dual-side:hover {
     flex: 1.35;
     background: linear-gradient(120deg,rgb(81, 255, 17) 0%,rgb(7, 90, 2) 100%);
@@ -105,7 +105,7 @@ body {
     transform: scale(1.09);
 }
 
-/* Responsive */
+
 @media (max-width: 800px) {
     .dual-card {
         flex-direction: column;

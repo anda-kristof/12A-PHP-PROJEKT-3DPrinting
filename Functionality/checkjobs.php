@@ -1,10 +1,10 @@
 <?php
-// checkjobs.php
-require_once(__DIR__ . '/../Functionality/Classes.php'); // 1. osztálydefiníciók
+
+require_once(__DIR__ . '/../Functionality/Classes.php'); 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
-}                                        // 2. session
-require_once(__DIR__ . '/../Functionality/Connection.php'); // 3. többi include
+}                                        
+require_once(__DIR__ . '/../Functionality/Connection.php'); 
 
 if (!isset($_SESSION['user']) || !is_object($_SESSION['user'])) {
     echo "<div style='color:red'>Nem vagy bejelentkezve!</div>";
@@ -21,7 +21,7 @@ $user_id = $_SESSION['user']->user_id;
 
 
 if (isset($_SESSION['user'])) {
-    $conn = new Connection(); // vagy ahogy a te projektedben kell
+    $conn = new Connection(); 
     $myprinters = $conn->getUserPrinters($_SESSION['user']->user_id);
     $myjobs = $conn->getUserJobs($_SESSION['user']->user_id);
 
@@ -29,7 +29,7 @@ if (isset($_SESSION['user'])) {
 
 
     foreach ($myjobs as $j) {
-    // Csak a printing státuszú jobokkal foglalkozzunk!
+    
     if ($j->jobs_status !== "printing") continue;
 
     $start = $j->jobs_starts_time;
@@ -43,7 +43,7 @@ if (isset($_SESSION['user'])) {
     $now = new DateTime();
 
     if ($end_dt <= $now) {
-        // Ha lejárt, akkor állítsd finished-re a jobot és idle-re a printert
+        
         $conn->setDoneJ($j->jobs_job_id);
         $conn->setDoneP($j->jobs_printer_id);
     }

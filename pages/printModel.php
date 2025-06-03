@@ -109,14 +109,13 @@
 <script>
 document.querySelectorAll('.print-form').forEach(function(form) {
   form.addEventListener('submit', function(e) {
-    // Get the sidebar selects
+    
     const printer = document.getElementById('printer-select');
     const filament = document.getElementById('filament-select');
-    // Set the hidden inputs
+    
     form.querySelector('input[name="printer_id"]').value = printer.value;
     form.querySelector('input[name="filament_id"]').value = filament.value;
-    // Allow form to submit normally (GET)
-    // If you want to use POST, change method and handle accordingly
+   
   });
 });
 </script>
@@ -207,7 +206,7 @@ document.querySelectorAll('.print-form').forEach(function(form) {
         background: #1c2221;
         color: var(--text-main);
     }
-    /* Custom arrow for select */
+    
     .sidebar-select {
         background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' fill='none' stroke='%2319ff19' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5'/%3E%3C/svg%3E");
         background-repeat: no-repeat;
