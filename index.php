@@ -1,7 +1,9 @@
 <?php 
 
 include_once("Functionality/AllCode.php");
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 $conn = new Connection();
 $users = $conn->getUsers(); 
 
@@ -170,31 +172,84 @@ $user_id = $_SESSION['user']->user_id;
         $aktuser = $_SESSION['user'];
         if($_SERVER["REQUEST_METHOD"] === "POST"){
             $printerid = (int)$_POST["printer_id"];
-            $printer = $conn->getPrintersById($printerid);
+            
+            if($printerid != 0){
+                $printer = $conn->getPrintersById($printerid);
             $printer_type = $conn-> getPrinterTypeOfPrinter($printer);
             $filamentid = (int)$_POST["filament_id"];
             $filament = $conn->getFilamentById($filamentid);
             $material = $conn->getMaterialOfFilament($filament);
             $modelid = (int)$_POST["model_id"];
             $model = $conn->getModelById($modelid);
-            $grams = ($material->density / 1000) * $model->volume_mm;
+            $grams = (((float)$material->density / 1000) * (float)$model->volume_mm) + 1;
             $floatsecs = ($model->volume_mm/$printer_type->printing_speed);
             $print_time = (floatSecsToTime($floatsecs));
 
 
-            $errors = PrintValidate($printer_type->plate_length,$printer_type->plate_height, $printer_type->plate_width, $filament->filament_grams, $material->name, $material->density, $model->volume_mm, $model->recommended_material, $model->max_size_mm );
+            $errors = PrintValidate($printer_type->plate_length,$printer_type->plate_height, $printer_type->plate_width, $filament->filament_grams,$printerid, $material->name, $material->density,$printer_type->compatible_materials, $model->volume_mm, $model->recommended_material, $model->max_size_mm );}
             if(empty($errors)){
-                $conn->Print($aktuser->user_id, $printerid, $filamentid, $print_time, $modelid, $grams );
-                include_once("pages/dashboard.php");
+                if($printerid != 0){
+                    $conn->Print($aktuser->user_id, $printerid, $filamentid, $print_time, $modelid, $grams );
+                    include_once("pages/dashboard.php");
+
+                }
             }
             else{
                 include("pages/printModel.php");
             }
+            if($printerid == 0){
+                echo '<p class="bg-danger">Nincs szabad nyomtató</p>';
+                include("pages/printModel.php");
+            }
+            
         }
         break;
-    case "uploadmodel":
+    case "newupload":
         include_once("pages/uploadModel.php");
         break;
+
+    case "upload":
+    
+    $user = $_SESSION['user'];
+    $errors = [];
+    if($_SERVER['REQUEST_METHOD'] === "POST"){
+        // Collect POST values
+        $name = trim($_POST['name'] ?? "");
+        $volume = isset($_POST['volume_mm']) ? (float)$_POST['volume_mm'] : 0;
+        $maxsize = isset($_POST['max_size_mm']) ? (float)$_POST['max_size_mm'] : 0;
+        $description = trim($_POST['description'] ?? "");
+        $recommended = trim($_POST['recommended_material'] ?? "");
+
+        // Validation
+        if ($name === "" || strlen($name) > 100) {
+            $errors['name'] = "Adj meg egy nevet, maximum 100 karakter!";
+        }
+        if ($volume <= 0) {
+            $errors['volume_mm'] = "A térfogat csak pozitív szám lehet!";
+        }
+        if ($maxsize <= 0) {
+            $errors['max_size_mm'] = "A maximális méret csak pozitív szám lehet!";
+        }
+        if (strlen($description) > 400) {
+            $errors['description'] = "A leírás maximum 400 karakter lehet!";
+        }
+        if (strlen($recommended) > 100) {
+            $errors['recommended_material'] = "Az ajánlott anyag maximum 100 karakter lehet!";
+        }
+        // If you want to require recommended material, add:
+        if ($recommended === "") {
+            $errors['recommended_material'] = "Adj meg ajánlott anyagot!";
+        }
+
+        // If no errors, save or process the model here!
+        if (empty($errors)) {
+            $conn->addModel($user->user_id, $name, $volume, $maxsize, $description, $recommended);
+            include_once("pages/dashboard.php");
+        } else {
+            include("pages/uploadModel.php");
+        }
+    }
+    break;
     case "dashboard":
         include_once("pages/dashboard.php");
     

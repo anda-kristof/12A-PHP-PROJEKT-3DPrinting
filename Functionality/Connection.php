@@ -63,20 +63,33 @@ class Connection
 
             $sql = "UPDATE filaments SET filament_grams = $filaleft WHERE filament_id = $filament_id";
         }
+        $this->conn->query($sql);
+        $jobs = $this->getJobs();
+        foreach($jobs as $j){
+            if($j->printer_id == $printer_id){
+                $sql = "UPDATE printers SET job_id = $j->job_id WHERE printer_id = $printer_id";
+            }
+        }
     }
     function setDoneP($printer_id){
+        $printer_id = (int)$printer_id;
         $sql = "UPDATE printers SET status = 'idle' WHERE printer_id = $printer_id";
+        $this->conn->query($sql);
+        $sql = "UPDATE printers SET job_id = 0 WHERE printer_id = $printer_id";
         $this->conn->query($sql);
         
     }
     function setDoneJ($job_id){
-        
+        $job_id = (int)$job_id;
         $sql = "UPDATE jobs SET status = 'finished' WHERE job_id = $job_id";
         $this->conn->query($sql);
     }
     function getPrinterTypeOfPrinter($printer){
-        $sql = "SELECT * FROM printer_types WHERE printer_type_id = $printer->printer_type_id";
-        return $this->conn->query($sql)->fetch_object();
+        if($printer){
+
+            $sql = "SELECT * FROM printer_types WHERE printer_type_id = $printer->printer_type_id";
+            return $this->conn->query($sql)->fetch_object();
+        }
     }
      function getMaterialOfFilament($filament){
         $sql = "SELECT * FROM materials WHERE material_id = $filament->material_id";
@@ -243,6 +256,11 @@ class Connection
             $userfilaments[] = $row;
         }
         return $userfilaments;
+    }
+
+    function addModel($user_id, $name, $volume_mm, $max_size_mm,$description,  $recommended_material){
+        $sql = "INSERT INTO models (user_id, name, volume_mm, max_size_mm, description, img, recommended_material) VALUES ('$user_id', '$name', '$volume_mm', '$max_size_mm', '$description', 'sample.png', '$recommended_material')";
+        $this->conn->query($sql);
     }
 
     function getUserJobs($user_id){

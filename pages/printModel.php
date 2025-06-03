@@ -8,22 +8,58 @@
             <label for="printer-select">Nyomtató:</label> <!--Csak idle nyomtatók -->
             <select id="printer-select" class="sidebar-select" name="printer_id">
                 <?php
+                     $fprinters = $conn->getFreePrinters($aktuser->user_id);
+                     if(empty($fprinters)){
+                        
+    echo '<option value="0"  selected>'.'Nincs szabad nyomtató'.'</option>';
+}
                  foreach($fprinters as $p){
-                    echo '<option value="'.$p->printer_id.'">'.$p->printer_name.'</option>';
-                 }
-                 
-                 ?>
+                    if($p->status == "idle"){
+
+                        if($_GET["aktprinterid"] || $_GET["aktprintername"]){
+                            if($p->printer_id == (int)$_GET['aktprinterid']){
+                                echo '<option value="'.$p->printer_id.'" selected>'.$p->printer_name.'</option>';
+                            }
+                            else{
+
+                                echo '<option value="'.$p->printer_id.'">'.$p->printer_name.'</option>';
+                            }
+                        }
+                        else{
+                            echo '<option value="'.$p->printer_id.'">'.$p->printer_name.'</option>';
+                        }
+                    }
+                    }
+                    
+                    ?>
                 
             </select>
             <label for="filament-select">Filament:</label>
             <select id="filament-select" class="sidebar-select" name="filament_id">
                 <?php 
+                $userfilaments = $conn->getUserFilaments($aktuser->user_id);
+        
                 foreach($userfilaments as $f){
                     echo '<option value="'.$f->filament_id.'">'.$f->name.' - '.$f->color.'</option>';
                 }
                 ?>
                
             </select>
+            <?php if (!empty($errors)): ?>
+    <div class="alert alert-danger shadow-sm mt-3 mb-4" style="max-width: 600px; margin:auto;">
+        <div class="d-flex align-items-center mb-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#dc3545" class="bi bi-exclamation-triangle flex-shrink-0 me-2" viewBox="0 0 16 16" aria-label="Error:">
+                <path d="M7.938 2.016a.13.13 0 0 1 .125 0l6.857 11.856c.03.052.05.115.05.18 0 .18-.15.325-.33.325H1.36a.324.324 0 0 1-.33-.325c0-.065.019-.128.05-.18L7.938 2.016zm.823-1.447a1.13 1.13 0 0 0-1.623 0L.282 12.425A1.13 1.13 0 0 0 1.359 14h13.282a1.13 1.13 0 0 0 1.076-1.575L8.76.569zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+            </svg>
+            <span class="fw-bold">Hiba történt:</span>
+        </div>
+        <ul class="mb-0 ps-4">
+            <?php foreach ($errors as $err): ?>
+                <li><?= htmlspecialchars($err) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
         </form>
         <nav>
             
@@ -40,10 +76,11 @@
     <div class="main-content">
         <div class="models-header">
             <h1>Elérhető Modellek</h1>
-            <button class="upload-btn">+ Modell Feltöltése</button>
+            <a class="upload-btn btn" href="?todo=newupload" >+ Modell Feltöltése</a>
         </div>
         <div class="models-list">
             <?php 
+            $models = $conn->getAllModels();
             foreach($models as $m){
                 echo '<form class="print-form" method="POST" action="?todo=print">
   <input type="hidden" name="todo" value="print">

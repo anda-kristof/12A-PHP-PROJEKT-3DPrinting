@@ -1,7 +1,9 @@
 <?php
 
 require_once(__DIR__ . '/../Functionality/Classes.php'); // 1. osztálydefiníciók
-session_start();                                         // 2. session
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}                                         // 2. session
 require_once(__DIR__ . '/../Functionality/Connection.php'); // 3. többi include
 
 if (!isset($_SESSION['user']) || !is_object($_SESSION['user'])) {
@@ -16,6 +18,8 @@ if ($user_id === null) {
 
 $conn = new Connection();
 $user_id = $_SESSION['user']->user_id;
+// require_once(__DIR__ . '/../Functionality/checkjobs.php'); // 3. többi include
+
 
 $html = '';
 $html .= '
@@ -28,22 +32,13 @@ $html .= '
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Printers</a>
+                    <a class="nav-link active" aria-current="page" href="#printers-dashboard-section">Printers</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Filaments</a>
+                    <a class="nav-link" href="#filafila">Filaments</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Modellek
-                    </a>
-                    <ul class="dropdown-menu custom-dropdown">
-                        <li><a class="dropdown-item" href="#">Modell feltöltése</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Online Modellek</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="#jobss">Models</a>
                 </li>
             </ul>
             <div class="navbar-user">
@@ -60,6 +55,7 @@ $html .= '<div id="printers-dashboard-section">
     <h2>Nyomtatóim</h2>
     <div id="printers-dashboard-row">';
 $userprinters = $conn->getUserPrinters($user_id);
+
 foreach ($userprinters as $p) {
     $html .= '
        <div class="col col-lg-3 col-md-4 col-sm-6" >
@@ -72,8 +68,8 @@ foreach ($userprinters as $p) {
             <p class="printers-dashboard-text">Printer speed: ' . htmlspecialchars($p->printing_speed) . 'mm<sup>3</sup>/s</p>
             <p class="printers-dashboard-text">Plate size: ' . htmlspecialchars($p->plate_length) . " x " . htmlspecialchars($p->plate_height) . " x " . htmlspecialchars($p->plate_width) . ' mm</p>
             <div class="printers-dashboard-btn-row">
-              <a href="?todo=deleteprinter&aktprinterid=' . htmlspecialchars($p->printer_id) . '" class="btn btn-danger m-1">Delete</a>
-              <a href="?todo=printmodel&aktprinterid=' . htmlspecialchars($p->printer_id) . '" class="btn btn-success m-1">Nyomtatás</a>
+              <a href="?todo=deleteprinter&aktprinterid=' . htmlspecialchars($p->printer_id) .'&aktprintername='.htmlspecialchars($p->printer_name).' " class="btn btn-danger m-1">Delete</a>
+              <a href="?todo=newprint&aktprinterid=' . htmlspecialchars($p->printer_id) . '" class="btn btn-success m-1">Nyomtatás</a>
             </div>
           </div>
         </div>
@@ -87,7 +83,7 @@ $html .= '</div>
 
 // FILAMENTS
 $html .= '<div id="printers-dashboard-section">
-    <h2>Filamentek</h2>
+    <h2 id="filafila">Filamentek</h2>
     <div id="printers-dashboard-row">';
 $userfilaments = $conn->getUserFilaments($user_id);
 foreach ($userfilaments as $f) {
@@ -111,7 +107,7 @@ $html .= '</div>
 
 // JOBS
 $html .= '<div id="printers-dashboard-section">
-    <h2>Nyomtatások</h2>
+    <h2 id="jobss">Nyomtatások</h2>
     <div id="printers-dashboard-row">';
 $userjobs = $conn->getUserJobs($user_id);
 foreach ($userjobs as $j) {
@@ -138,10 +134,10 @@ foreach ($userjobs as $j) {
       <img class="printers-dashboard-img" src="img/models/' . htmlspecialchars($j->models_img) . '" alt="model">
       <div class="printers-dashboard-body">
         <h4 class="printers-dashboard-title">' . htmlspecialchars($j->models_name) . '</h4>
-        <h4 class="printers-dashboard-title">Állapot:'  . htmlspecialchars($j->jobs_status) . '</h4>
+        <h4 class="printers-dashboard-title">Állapot: '  . htmlspecialchars($j->jobs_status) . '</h4>
         <h4 class="printers-dashboard-title">Nyomtató:  ' . htmlspecialchars($j->printers_printer_name) . '</h4>
         <h4 class="printers-dashboard-title">Anyag: ' . htmlspecialchars($j->materials_name) . " " . htmlspecialchars($j->materials_color) . '</h4>
-        <p class="printers-dashboard-text">Elérhető mennyiség: ' . htmlspecialchars($j->filaments_filament_grams) . ' g</p>
+        
         <h5 class="printers-dashboard-type">' . htmlspecialchars($j->models_volume_mm) . ' mm<sup>3</sup></h5>
         <div class="progress my-2">
           <div class="progress-bar" role="progressbar" style="width: '.$progress.'%;" aria-valuenow="'.$progress.'" aria-valuemin="0" aria-valuemax="100">'.$progress.'%</div>
@@ -153,6 +149,7 @@ foreach ($userjobs as $j) {
 $html .= '</div>
     <div class="d-flex justify-content-center my-4">
         <a href="?todo=newprint" class="btn custom-dashboard-btn">Új nyomtatás</a>
+        <a href="?todo=newupload" class="btn custom-dashboard-btn">+ Modell Feltöltése</a>
     </div>
 </div>';
 

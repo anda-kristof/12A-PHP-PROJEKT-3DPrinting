@@ -10,4 +10,7 @@ function frissites() {
 }
 frissites(); // induláskor
 setInterval(frissites, 1000); // 5 mp-enként
+setInterval(function() {
+  fetch("Functionality/checkjobs.php", { credentials: "same-origin" });
+}, 10000);
 </script>
