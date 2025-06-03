@@ -134,12 +134,12 @@ INSERT INTO `materials` (`material_id`, `name`, `color`, `density`, `img`) VALUE
 (3, 'PETG', 'blue', 1.27, 'petg_blue.png'),
 (4, 'TPU', 'red', 1.21, 'tpu_red.png'),
 (5, 'Nylon', 'grey', 1.15, 'nylon_grey.png'),
-(6, 'PLA Emerald', 'emerald green', 1.23, 'pla_emerald.png'),
-(7, 'PLA Gold', 'gold', 1.24, 'pla_gold.png'),
-(8, 'TPU Copper', 'copper', 1.21, 'tpu_copper.png'),
-(9, 'TPU Orange', 'orange', 1.21, 'tpu_orange.png'),
-(10, 'TPU Red', 'red', 1.21, 'tpu_red.png'),
-(11, 'TPU Yellow', 'yellow', 1.21, 'tpu_yellow.png');
+(6, 'PLA', 'emerald green', 1.23, 'pla_emerald.png'),
+(7, 'PLA', 'gold', 1.24, 'pla_gold.png'),
+(8, 'TPU', 'copper', 1.21, 'tpu_copper.png'),
+(9, 'TPU', 'orange', 1.21, 'tpu_orange.png'),
+(10, 'TPU', 'red', 1.21, 'tpu_red.png'),
+(11, 'TPU', 'yellow', 1.21, 'tpu_yellow.png');
 
 INSERT INTO `printer_types` (`printer_type_id`, `printer_type_name`, `printing_speed`, `plate_length`, `plate_height`, `plate_width`, `compatible_materials`, `img`) VALUES
 (1, 'Prusa i3', 15, 250, 210, 210, 'PLA,ABS,PETG', 'prusa.png'),
