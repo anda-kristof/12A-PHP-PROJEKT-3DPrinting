@@ -28,7 +28,7 @@ $print_id,
     if(!(str_contains($compatible_materials, $material_name))){$errors["printer"] = "A nyomtató nem kompatibilis a kiválasztott anyaggal!";
 
     }
-    if ($material_name != $recommended_material) {
+    if (!(str_contains($recommended_material, $material_name))) {
         $errors["filament"] = "Nem ajánlott anyag!";
     }
     if ($max_size_mm > $plate_height && $max_size_mm > $plate_width && $max_size_mm > $plate_length) {

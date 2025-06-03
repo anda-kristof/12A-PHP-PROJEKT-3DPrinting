@@ -55,11 +55,13 @@ $html .= '<div id="printers-dashboard-section">
     <h2>Nyomtatóim</h2>
     <div id="printers-dashboard-row">';
 $userprinters = $conn->getUserPrinters($user_id);
-
+$class = '';
 foreach ($userprinters as $p) {
+    $class = '';
+    if ($p->status == "printing") $class = 'printing';
     $html .= '
        <div class="col col-lg-3 col-md-4 col-sm-6" >
-         <div class="printers-dashboard-card">
+         <div class="printers-dashboard-card '.$class.'">
           <img class="printers-dashboard-img" src="img/printer_types/' . htmlspecialchars($p->img) . '" alt="printer">
           <div class="printers-dashboard-body">
             <h4 class="printers-dashboard-title">' . htmlspecialchars($p->printer_name) . '</h4>
@@ -128,9 +130,11 @@ foreach ($userjobs as $j) {
             $progress = 0;
         }
     }
+    $class = '';
+    if ($j->jobs_status == "finished") $class = 'finished';
     $html .= '
    <div class="col col-lg-3 col-md-4 col-sm-6">
-     <div class="printers-dashboard-card">
+     <div class="printers-dashboard-card '.$class.'">
       <img class="printers-dashboard-img" src="img/models/' . htmlspecialchars($j->models_img) . '" alt="model">
       <div class="printers-dashboard-body">
         <h4 class="printers-dashboard-title">' . htmlspecialchars($j->models_name) . '</h4>

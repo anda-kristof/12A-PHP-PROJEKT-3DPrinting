@@ -12,8 +12,8 @@ CREATE DATABASE IF NOT EXISTS `12a_3dprinting` DEFAULT CHARACTER SET utf8mb4 COL
 USE `12a_3dprinting`;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
+START TRANSACTION;
 
 --
 -- Tábla szerkezet ehhez a táblához `users`
@@ -169,8 +169,8 @@ INSERT INTO `models` (`model_id`, `user_id`, `name`, `volume_mm`, `max_size_mm`,
 (8, 1, 'Szobor - Sárkány', 18500, 320, 'Nagy, részletes sárkány szobor. Kiemelkedő részletesség, ajánlott PLA vagy PETG.', 'dragon_statue.png', 'PLA, PETG'),
 (9, 2, 'Versenyautó váz', 24000, 400, 'RC autó váz, tartós, merev szerkezetű. ABS vagy PETG alapanyag ajánlott.', 'racecar_body.png', 'ABS, PETG'),
 (10, 3, 'Szerszámtartó doboz', 12000, 250, 'Erős, nagy szerszámtartó, több rekesszel.', 'toolbox_large.png', 'PETG'),
-(11, 1, 'Ékszertartó állvány', 8000, 180, 'Elegáns ékszertartó állvány, csillogó anyagból.', 'jewelry_stand.png', 'PLA_gold'),
-(12, 2, 'Színes váza', 11000, 220, 'Dekoratív, nagy váza, áttetsző vagy színes anyagból.', 'vase_big.png', 'PETG, PLA_emerald'),
+(11, 1, 'Ékszertartó állvány', 8000, 180, 'Elegáns ékszertartó állvány, csillogó anyagból.', 'jewelry_stand.png', 'PLA'),
+(12, 2, 'Színes váza', 11000, 220, 'Dekoratív, nagy váza, áttetsző vagy színes anyagból.', 'vase_big.png', 'PETG, PLA'),
 (13, 3, 'Flexi dinoszaurusz XL', 9500, 200, 'Mozgatható tagú, nagyobb flexi dino.', 'flexi_dino_xl.png', 'TPU, PLA'),
 (14, 1, 'joystick tartó', 2111, 1111, 'asd', 'sample.png', 'PLA'),
 (15, 1, 'Tengeralattjáró', 780000000, 80000, 'nagy', 'sample.png', 'VAS');
